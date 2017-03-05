@@ -1,0 +1,4 @@
+{
+"name": "motion_detection",
+"scripts": {"start": "sudo node index.js"}
+}
