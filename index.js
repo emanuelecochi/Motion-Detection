@@ -44,6 +44,7 @@ timeOutPir = config["timeOutPir"];
 alarmStart = config["alarmStart"];
 alarmEnd = config["alarmEnd"];
 daysWeekAlarm = config["daysWeekAlarm"];
+daysForeverActive = config["daysForeverActive"];
 timeRmDir = config["timeRmDir"];
 
 // setto l'intervallo per la pulizia delle cartelle foto e video
@@ -55,13 +56,13 @@ setInterval(function(){
 }, timeRmDir*60*1000);
 
 // inizializzo il sistema
-if(pirSx.digitalRead() == 1 && !isWorking && Utility.isAlarmActive(alarmStart,alarmEnd,daysWeekAlarm)){
+if(pirSx.digitalRead() == 1 && !isWorking && Utility.isAlarmActive(alarmStart,alarmEnd,daysWeekAlarm,daysForeverActive)){
     motionDetectionSx(function(){
         if(pirDx.digitalRead() == 1){
             motionDetectionDx(function(){});
         }
     });
-}else if (pirDx.digitalRead() == 1 && !isWorking && Utility.isAlarmActive(alarmStart,alarmEnd,daysWeekAlarm)){
+}else if (pirDx.digitalRead() == 1 && !isWorking && Utility.isAlarmActive(alarmStart,alarmEnd,daysWeekAlarm,daysForeverActive)){
     motionDetectionDx(function(){});
 } else
     init();
@@ -70,7 +71,7 @@ if(pirSx.digitalRead() == 1 && !isWorking && Utility.isAlarmActive(alarmStart,al
 // controllo lo stato del pirSx
 pirSx.on('interrupt', function (level) {
     console.log("SX");
-    if(!isWorking && Utility.isAlarmActive(alarmStart,alarmEnd,daysWeekAlarm)) {
+    if(!isWorking && Utility.isAlarmActive(alarmStart,alarmEnd,daysWeekAlarm,daysForeverActive)) {
         motionDetectionSx(function() {
             if(pirDx.digitalRead() == 1){
                 motionDetectionDx(function(){});
@@ -82,7 +83,7 @@ pirSx.on('interrupt', function (level) {
 // controllo lo stato del pirDx
 pirDx.on('interrupt', function (level) {
     console.log("DX");
-    if(!isWorking && Utility.isAlarmActive(alarmStart,alarmEnd,daysWeekAlarm)) {
+    if(!isWorking && Utility.isAlarmActive(alarmStart,alarmEnd,daysWeekAlarm,daysForeverActive)) {
         motionDetectionDx(function() {
             if(pirSx.digitalRead() == 1){
                 motionDetectionSx(function(){});

@@ -30,8 +30,10 @@ module.exports.sendAlarm = function(nameFile,dir){
         Dropbox.dropboxUpload(nameFile,dir);
 }
 
-module.exports.isAlarmActive = function(timeStart,timeEnd,daysWeekAlarm) {
+module.exports.isAlarmActive = function(timeStart,timeEnd,daysWeekAlarm,daysForeverActive) {
     var dateNow = Moment();
+    if(daysForeverActive.includes(dateNow.days()))
+      return true;
     if(daysWeekAlarm.includes(dateNow.days())) {
       alarmStartPars = timeStart.match(/(\d{2})(\d{2})/);
       alarmEndParse = timeEnd.match(/(\d{2})(\d{2})/);
